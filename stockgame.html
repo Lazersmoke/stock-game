@@ -54,7 +54,8 @@ function randomize(){
   for(var i=0;i<4;i++){
     for(var q=0;q<4;q++){
       if(stockValueTable[i][q]!=0){
-        stockValueTable[i][q]+=Math.floor((Math.random()*600)-299);
+        var change=Math.floor((Math.random()*600)-299)
+        stockValueTable[i][q]+=change;
       }
     }
   }
