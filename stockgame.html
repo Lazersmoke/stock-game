@@ -11,99 +11,82 @@
 
 
 var stockPercentTable=[
-[0,0,0,0],
-[0,0,0,0],
-[0,0,0,0],
-[0,0,0,0]]
+  [0,0,0,0],
+  [0,0,0,0],
+  [0,0,0,0],
+  [0,0,0,0]
+]
 
 var stockValueTable=[
-[0,0,0,0],
-[0,0,0,0],
-[0,0,0,0],
-[0,0,0,0]]
+  [0,0,0,0],
+  [0,0,0,0],
+  [0,0,0,0],
+  [0,0,0,0]
+]
 
 var playerValueTable=[1000,1000,1000,1000]
 
 function updateHUD(){
-
-for(var stock=0;stock<4;stock++){
-
-for(var player=0;player<4;player++){
-document.getElementById(String(stock+1)+String(player+1)).innerHTML=stockValueTable[stock][player];
-}
-
-}
-
-for(var player=0;player<4;player++){
-document.getElementById(String(player+1)+'money').innerHTML='Your Money: $'+String(playerValueTable[player])
-}
-
+  for(var stock=0;stock<4;stock++){
+    for(var player=0;player<4;player++){
+      document.getElementById(String(stock+1)+String(player+1)).innerHTML=stockValueTable[stock][player];
+    }
+  }
+  for(var player=0;player<4;player++){
+    document.getElementById(String(player+1)+'money').innerHTML='Your Money: $'+String(playerValueTable[player])
+  }
 }
 
 function getTotalValue(stockNum){
-return (stockValueTable[stockNum][0]+stockValueTable[stockNum][1]+stockValueTable[stockNum][2]+stockValueTable[stockNum][3])
+  return (stockValueTable[stockNum][0]+stockValueTable[stockNum][1]+stockValueTable[stockNum][2]+stockValueTable[stockNum][3])
 }
-
+  
 function updatePercentTable(){
-for(var i=0;i<4;i++){
-stockPercentTable[i][0]=(stockValueTable[i][0]/getTotalValue(i));
-stockPercentTable[i][1]=(stockValueTable[i][1]/getTotalValue(i));
-stockPercentTable[i][2]=(stockValueTable[i][2]/getTotalValue(i));
-stockPercentTable[i][3]=(stockValueTable[i][3]/getTotalValue(i));
-}
+  for(var i=0;i<4;i++){
+    stockPercentTable[i][0]=(stockValueTable[i][0]/getTotalValue(i));
+    stockPercentTable[i][1]=(stockValueTable[i][1]/getTotalValue(i));
+    stockPercentTable[i][2]=(stockValueTable[i][2]/getTotalValue(i));
+    stockPercentTable[i][3]=(stockValueTable[i][3]/getTotalValue(i));
+  }
 }
 
 function randomize(){
-for(var i=0;i<4;i++){
-for(var q=0;q<4;q++){
-if(stockValueTable[i][q]!=0){
-stockValueTable[i][q]+=Math.floor((Math.random()*600)-299);
+  for(var i=0;i<4;i++){
+    for(var q=0;q<4;q++){
+      if(stockValueTable[i][q]!=0){
+        stockValueTable[i][q]+=Math.floor((Math.random()*600)-299);
+      }
+    }
+  }
 }
-}
-}
-}
-
 function playerInvest(playerNum, amountIdTag, stockIdTag){
-
-var toInvest=Number(document.getElementById(amountIdTag).value);
-var newPlayerNum=playerNum-1
-var playerValue=playerValueTable[newPlayerNum]
-
-if(playerValue-toInvest>0){
-
-playerValueTable[newPlayerNum]-=toInvest;
-stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]+=toInvest;
-randomize();
-updatePercentTable();
-updateHUD();
-
-}}
+  var toInvest=Number(document.getElementById(amountIdTag).value);
+  var newPlayerNum=playerNum-1
+  var playerValue=playerValueTable[newPlayerNum]
+  if(playerValue-toInvest>0){
+    playerValueTable[newPlayerNum]-=toInvest;
+    stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]+=toInvest;
+    randomize();
+    updatePercentTable();
+    updateHUD();
+  }
+}
 
 function playerUninvest(playerNum, amountIdTag, stockIdTag){
-
-var toInvest=Number(document.getElementById(amountIdTag).value);
-var newPlayerNum=playerNum-1
-var playerValue=playerValueTable[newPlayerNum]
-
-if(stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]>=toInvest){
-
-playerValueTable[newPlayerNum]+=toInvest;
-stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]-=toInvest;
-randomize();
-updatePercentTable();
-updateHUD();
-
-}}
-
-
-
-
-
+  var toInvest=Number(document.getElementById(amountIdTag).value);
+  var newPlayerNum=playerNum-1
+  var playerValue=playerValueTable[newPlayerNum]
+  if(stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]>=toInvest){
+    playerValueTable[newPlayerNum]+=toInvest;
+    stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]-=toInvest;
+    randomize();
+    updatePercentTable();
+    updateHUD();
+  }
+}
 </script>
-
 </head>
 <body>
-
 <div style="position:fixed;top:0%;left:0%;height:25%;width:25%;background-color:red;">
 <span>Player 1</span><br>
 <button onclick="playerInvest(1,'1invest','1stock');">Invest</button>
