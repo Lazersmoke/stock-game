@@ -54,8 +54,8 @@ function randomize(){
   for(var i=0;i<4;i++){
     var perChange=Math.floor((Math.random()*50)-25)
     for(var q=0;q<4;q++){
-      if(stockValueTable[q][i]!=0){
-        stockValueTable[q][i]+=stockValueTable[q][i]*(perChange/100);
+      if(stockValueTable[i][q]!=0){
+        stockValueTable[i][q]+=stockValueTable[i][q]*(perChange/100);
       }
     }
   }
