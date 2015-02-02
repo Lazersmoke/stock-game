@@ -25,7 +25,7 @@ var stockValueTable=[
 ]
 
 var playerValueTable=[1000,1000,1000,1000]
-
+var turned=[0,0,0,0]
 function updateHUD(){
   for(var stock=0;stock<4;stock++){
     for(var player=0;player<4;player++){
@@ -52,10 +52,10 @@ function updatePercentTable(){
 
 function randomize(){
   for(var i=0;i<4;i++){
+    var perChange=Math.floor((Math.random()*50)-25)
     for(var q=0;q<4;q++){
-      if(stockValueTable[i][q]!=0){
-        var change=Math.floor((Math.random()*600)-299)
-        stockValueTable[i][q]+=change;
+      if(stockValueTable[q][i]!=0){
+        stockValueTable[q][i]+=stockValueTable[q][i]*(change/100);
       }
     }
   }
@@ -67,7 +67,6 @@ function playerInvest(playerNum, amountIdTag, stockIdTag){
   if(playerValue-toInvest>0){
     playerValueTable[newPlayerNum]-=toInvest;
     stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]+=toInvest;
-    randomize();
     updatePercentTable();
     updateHUD();
   }
@@ -80,6 +79,17 @@ function playerUninvest(playerNum, amountIdTag, stockIdTag){
   if(stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]>=toInvest){
     playerValueTable[newPlayerNum]+=toInvest;
     stockValueTable[document.getElementById(stockIdTag).value-1][newPlayerNum]-=toInvest;
+    updatePercentTable();
+    updateHUD();
+  }
+}
+function EYT(playerNum){
+  turned[playerNum-1]=1
+  if(turned[0]==1&&
+  turned[1]==1&&
+  turned[2]==1&&
+  turned[3]==1){
+    turned=[0,0,0,0]
     randomize();
     updatePercentTable();
     updateHUD();
@@ -95,6 +105,8 @@ function playerUninvest(playerNum, amountIdTag, stockIdTag){
 <br>
 <button onclick="playerUninvest(1,'1unInvest','1stock');">Uninvest</button>
 <input id="1unInvest" type="text"  onkeypress="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')" onkeyup   ="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')"></input>
+<br>
+<button onclick="EYT(1)">End Turn</button>
 <br>
 <select id="1stock">
 <option value=1>Stock 1</option>
@@ -113,6 +125,8 @@ function playerUninvest(playerNum, amountIdTag, stockIdTag){
 <button onclick="playerUninvest(2,'2unInvest','2stock');">Uninvest</button>
 <input id="2unInvest" type="text"  onkeypress="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')" onkeyup   ="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')"></input>
 <br>
+<button onclick="EYT(2)">End Turn</button>
+<br>
 <select id="2stock">
 <option value=1>Stock 1</option>
 <option value=2>Stock 2</option>
@@ -130,6 +144,8 @@ function playerUninvest(playerNum, amountIdTag, stockIdTag){
 <button onclick="playerUninvest(3,'3unInvest','3stock');">Uninvest</button>
 <input id="3unInvest" type="text"  onkeypress="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')" onkeyup   ="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')"></input>
 <br>
+<button onclick="EYT(3)">End Turn</button>
+<br>
 <select id="3stock">
 <option value=1>Stock 1</option>
 <option value=2>Stock 2</option>
@@ -146,6 +162,8 @@ function playerUninvest(playerNum, amountIdTag, stockIdTag){
 <br>
 <button onclick="playerUninvest(4,'4unInvest','4stock');">Uninvest</button>
 <input id="4unInvest" type="text"  onkeypress="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')" onkeyup   ="if(this.value.match(/\D/)) this.value=this.value.replace(/\D/g,'')"></input>
+<br>
+<button onclick="EYT(4)">End Turn</button>
 <br>
 <select id="4stock">
 <option value=1>Stock 1</option>
